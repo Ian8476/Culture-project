@@ -30,8 +30,21 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
+# env files (las claves reales nunca se versionan; el ejemplo sí)
 .env*
+!.env.example
+
+# Firebase service account / admin credentials — NUNCA versionar
+KEY DE PROYECTO ADMIN 3.json
+*serviceAccount*.json
+*-firebase-adminsdk-*.json
+serviceAccountKey.json
+
+# Firebase emulator artifacts
+.firebase/
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
 
 # vercel
 .vercel
@@ -39,3 +52,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Agents
+
+.claude
