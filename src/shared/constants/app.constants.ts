@@ -5,3 +5,4 @@ export const APP_DESCRIPTION =
 export const DEFAULT_LOCALE = 'es-CR' as const;
 
 export const AUTH_CONTEXT_ERROR = 'useAuthContext debe usarse dentro de un AuthProvider.' as const;
+export const LOADING_MESSAGE = 'Cargando…' as const;

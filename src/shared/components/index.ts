@@ -5,6 +5,7 @@ export { MultiSelect } from './MultiSelect';
 export { WeightSlider } from './WeightSlider';
 export { Spinner } from './Spinner';
 export { FormField } from './FormField';
+export { AuthGuard } from './AuthGuard';
 
 export type { ButtonProps, ButtonVariant, ButtonSize, ButtonType } from './Button';
 export type { InputProps, InputType } from './Input';
@@ -13,3 +14,4 @@ export type { MultiSelectProps } from './MultiSelect';
 export type { WeightSliderProps } from './WeightSlider';
 export type { SpinnerProps, SpinnerSize } from './Spinner';
 export type { FormFieldProps } from './FormField';
+export type { AuthGuardProps } from './AuthGuard';

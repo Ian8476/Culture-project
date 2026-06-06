@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z, type ZodType } from 'zod';
 import {
   MIN_DISPLAY_NAME_LENGTH,
   MAX_DISPLAY_NAME_LENGTH,
@@ -24,3 +24,10 @@ export const displayNameSchema = z
   .max(MAX_DISPLAY_NAME_LENGTH, VALIDATION_MESSAGES.DISPLAY_NAME_TOO_LONG);
 
 export const bioSchema = z.string().trim().max(MAX_BIO_LENGTH, VALIDATION_MESSAGES.BIO_TOO_LONG);
+
+// Valida un único valor contra un esquema y devuelve el primer mensaje de error,
+// o `undefined` si es válido. Las features lo usan para validación por campo.
+export function firstError(schema: ZodType, value: unknown): string | undefined {
+  const result = schema.safeParse(value);
+  return result.success ? undefined : result.error.issues[0]?.message;
+}
