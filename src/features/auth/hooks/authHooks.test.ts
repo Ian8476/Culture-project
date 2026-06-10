@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook, act, waitFor } from '@testing-library/react';
-import { ROUTES } from '@/shared/constants/routes.constants';
+import { ROUTES, NEXT_QUERY_PARAM } from '@/shared/constants/routes.constants';
 import { AuthError } from '@/shared/types/errors.types';
 import * as authService from '../services/auth.service';
 import { useRegister } from './useRegister';
@@ -8,9 +8,11 @@ import { useLogin } from './useLogin';
 import { usePasswordReset } from './usePasswordReset';
 
 const pushMock = vi.fn();
+let mockSearchParams = new URLSearchParams();
 
 vi.mock('next/navigation', () => ({
   useRouter: () => ({ push: pushMock, replace: vi.fn() }),
+  useSearchParams: () => mockSearchParams,
 }));
 
 vi.mock('../services/auth.service', () => ({
@@ -21,6 +23,7 @@ vi.mock('../services/auth.service', () => ({
 
 beforeEach(() => {
   vi.clearAllMocks();
+  mockSearchParams = new URLSearchParams();
 });
 
 describe('useRegister', () => {
@@ -53,6 +56,30 @@ describe('useRegister', () => {
 describe('useLogin', () => {
   it('redirige al perfil tras login exitoso', async () => {
     vi.mocked(authService.login).mockResolvedValue('uid-1');
+    const { result } = renderHook(() => useLogin());
+
+    await act(async () => {
+      await result.current.submit({ email: 'a@b.com', password: 'segura123' });
+    });
+
+    expect(pushMock).toHaveBeenCalledWith(ROUTES.PROFILE.ROOT);
+  });
+
+  it('vuelve a la ruta original si hay ?next= interno', async () => {
+    vi.mocked(authService.login).mockResolvedValue('uid-1');
+    mockSearchParams = new URLSearchParams({ [NEXT_QUERY_PARAM]: '/communities/drama' });
+    const { result } = renderHook(() => useLogin());
+
+    await act(async () => {
+      await result.current.submit({ email: 'a@b.com', password: 'segura123' });
+    });
+
+    expect(pushMock).toHaveBeenCalledWith('/communities/drama');
+  });
+
+  it('ignora un ?next= externo (protocol-relative) y va al perfil', async () => {
+    vi.mocked(authService.login).mockResolvedValue('uid-1');
+    mockSearchParams = new URLSearchParams({ [NEXT_QUERY_PARAM]: '//evil.example.com' });
     const { result } = renderHook(() => useLogin());
 
     await act(async () => {

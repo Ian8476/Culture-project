@@ -83,7 +83,13 @@ export const COMMUNITY_BUTTONS = {
   REVEAL_SPOILER: 'Mostrar spoiler',
   BACK_TO_COMMUNITY: 'Volver a la comunidad',
   BACK_TO_EXPLORER: 'Todas las comunidades',
-  GO_PROFILE: 'Mi perfil',
+  RETRY: 'Reintentar',
+} as const;
+
+// Confirmaciones efímeras (toasts) tras publicar.
+export const COMMUNITY_TOASTS = {
+  DISCUSSION_PUBLISHED: 'Discusión publicada.',
+  COMMENT_PUBLISHED: 'Comentario publicado.',
 } as const;
 
 // Mensajes de estado / error.
@@ -96,9 +102,12 @@ export const COMMUNITY_MESSAGES = {
   SAVE_DISCUSSION_ERROR: 'No se pudo publicar la discusión. Inténtalo de nuevo.',
   SAVE_COMMENT_ERROR: 'No se pudo publicar el comentario. Inténtalo de nuevo.',
   PROFILE_REQUIRED: 'Completa tu perfil antes de participar en la comunidad.',
-  EMPTY_MEMBERS: 'Todavía no hay miembros con este subgénero. ¡Sé la primera persona!',
-  EMPTY_DISCUSSIONS: 'Aún no hay discusiones. Abre la primera.',
+  EMPTY_MEMBERS: 'Todavía no hay miembros con este subgénero.',
+  EMPTY_MEMBERS_HINT: 'Agrega este subgénero a tu perfil y sé quien inaugure la butaca.',
+  EMPTY_DISCUSSIONS: 'Aún no hay discusiones.',
+  EMPTY_DISCUSSIONS_HINT: 'Abre la primera: una pregunta o un análisis bastan para empezar.',
   EMPTY_COMMENTS: 'Nadie ha comentado todavía.',
+  EMPTY_COMMENTS_HINT: 'Tu perspectiva puede abrir la conversación.',
   SPOILER_HIDDEN: 'Este contenido se ocultó para proteger la experiencia de la obra.',
   TITLE_TOO_SHORT: 'El título debe tener al menos 3 caracteres.',
   BODY_REQUIRED: 'El contenido no puede estar vacío.',

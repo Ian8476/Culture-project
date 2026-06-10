@@ -17,6 +17,12 @@ vi.mock('@/shared/hooks/useAuthContext', () => ({
   useAuthContext: () => ({ user: { uid: 'u1' }, isLoading: false, signOut: vi.fn() }),
 }));
 
+const showToastMock = vi.fn();
+
+vi.mock('@/shared/hooks/useToast', () => ({
+  useToast: () => ({ showToast: showToastMock }),
+}));
+
 vi.mock('../services/profile.service', () => ({
   getProfile: vi.fn(),
   createProfile: vi.fn(),
@@ -58,6 +64,7 @@ describe('useProfileSetup', () => {
 
     expect(profileService.createProfile).toHaveBeenCalledWith('u1', values);
     expect(pushMock).toHaveBeenCalledWith(ROUTES.PROFILE.ROOT);
+    expect(showToastMock).toHaveBeenCalledTimes(1);
   });
 });
 

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { formatDateTime } from '@/lib/utils/dates';
+import { formatDateTime, formatRelativeTime } from '@/lib/utils/dates';
 import { COMMUNITY_LABELS } from '../../constants/communities.constants';
 import {
   DISCUSSION_CARD_STYLES,
@@ -18,7 +18,12 @@ export function DiscussionCard({ discussion, href }: DiscussionCardProps) {
       <span className={DISCUSSION_META_STYLES}>
         <span>{discussion.authorName}</span>
         <span>·</span>
-        <span>{formatDateTime(discussion.createdAt)}</span>
+        <time
+          dateTime={discussion.createdAt.toISOString()}
+          title={formatDateTime(discussion.createdAt)}
+        >
+          {formatRelativeTime(discussion.createdAt)}
+        </time>
         {discussion.hasSpoilers && (
           <span className={SPOILER_BADGE_STYLES}>{COMMUNITY_LABELS.SPOILER_BADGE}</span>
         )}

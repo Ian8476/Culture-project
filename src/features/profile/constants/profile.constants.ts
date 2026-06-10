@@ -89,7 +89,12 @@ export const PROFILE_BUTTONS = {
   SAVE_EDIT: 'Guardar cambios',
   GO_EDIT: 'Editar perfil',
   GO_COMMUNITIES: 'Explorar comunidades',
-  SIGN_OUT: 'Cerrar sesión',
+} as const;
+
+// Confirmaciones efímeras (toasts) tras guardar.
+export const PROFILE_TOASTS = {
+  CREATED: 'Tu perfil cultural está listo. ¡Bienvenido a la tertulia!',
+  UPDATED: 'Cambios guardados.',
 } as const;
 
 // Mensajes de estado / error.

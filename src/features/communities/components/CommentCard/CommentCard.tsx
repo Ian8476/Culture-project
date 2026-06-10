@@ -1,4 +1,4 @@
-import { formatDateTime } from '@/lib/utils/dates';
+import { formatDateTime, formatRelativeTime } from '@/lib/utils/dates';
 import { COMMUNITY_LABELS } from '../../constants/communities.constants';
 import { SpoilerContent } from '../SpoilerContent';
 import {
@@ -16,7 +16,9 @@ export function CommentCard({ comment }: CommentCardProps) {
       <header className={DISCUSSION_META_STYLES}>
         <span>{comment.authorName}</span>
         <span>·</span>
-        <span>{formatDateTime(comment.createdAt)}</span>
+        <time dateTime={comment.createdAt.toISOString()} title={formatDateTime(comment.createdAt)}>
+          {formatRelativeTime(comment.createdAt)}
+        </time>
         {comment.hasSpoilers && (
           <span className={SPOILER_BADGE_STYLES}>{COMMUNITY_LABELS.SPOILER_BADGE}</span>
         )}

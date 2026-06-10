@@ -2,11 +2,13 @@
 
 import { useState } from 'react';
 import { useAuthContext } from '@/shared/hooks/useAuthContext';
+import { useToast } from '@/shared/hooks/useToast';
 import { AppError } from '@/shared/types/errors.types';
 import { createDiscussion } from '../services/discussion.service';
 import { getMemberProfile } from '../services/members.service';
 import {
   COMMUNITY_MESSAGES,
+  COMMUNITY_TOASTS,
   DISCUSSION_TITLE_MIN_LENGTH,
 } from '../constants/communities.constants';
 import type { DiscussionFieldErrors } from '../types/communities.types';
@@ -25,6 +27,7 @@ export function useDiscussionComposer({
   onCreated,
 }: DiscussionComposerParams) {
   const { user } = useAuthContext();
+  const { showToast } = useToast();
   const [title, setTitle] = useState('');
   const [body, setBody] = useState('');
   const [hasSpoilers, setHasSpoilers] = useState(false);
@@ -66,6 +69,7 @@ export function useDiscussionComposer({
       setTitle('');
       setBody('');
       setHasSpoilers(false);
+      showToast(COMMUNITY_TOASTS.DISCUSSION_PUBLISHED);
       onCreated();
     } catch (caught) {
       setError(

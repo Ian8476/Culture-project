@@ -1,13 +1,11 @@
 'use client';
 
-import Link from 'next/link';
 import { Spinner } from '@/shared/components';
 import { useCatalog } from '@/shared/hooks/useCatalog';
-import { communityRoute, ROUTES } from '@/shared/constants/routes.constants';
+import { communityRoute } from '@/shared/constants/routes.constants';
 import type { Interest, Subgenre } from '@/shared/types/domain.types';
 import { CommunityCard } from '../CommunityCard';
 import {
-  COMMUNITY_BUTTONS,
   COMMUNITY_MESSAGES,
   COMMUNITY_SUBTITLES,
   COMMUNITY_TITLES,
@@ -16,8 +14,6 @@ import {
   COMMUNITY_CARD_GRID_STYLES,
   COMMUNITY_ERROR_STYLES,
   COMMUNITY_HEADER_STYLES,
-  COMMUNITY_NAV_LINK_STYLES,
-  COMMUNITY_NAV_STYLES,
   COMMUNITY_PAGE_WRAPPER_STYLES,
   COMMUNITY_SECTION_HEADING_STYLES,
   COMMUNITY_SECTION_STYLES,
@@ -64,12 +60,6 @@ export function CommunityExplorer() {
 
   return (
     <main className={COMMUNITY_PAGE_WRAPPER_STYLES}>
-      <nav className={COMMUNITY_NAV_STYLES}>
-        <Link href={ROUTES.PROFILE.ROOT} className={COMMUNITY_NAV_LINK_STYLES}>
-          {COMMUNITY_BUTTONS.GO_PROFILE}
-        </Link>
-      </nav>
-
       <header className={COMMUNITY_HEADER_STYLES}>
         <h1 className={COMMUNITY_TITLE_STYLES}>{COMMUNITY_TITLES.EXPLORER}</h1>
         <p className={COMMUNITY_SUBTITLE_STYLES}>{COMMUNITY_SUBTITLES.EXPLORER}</p>

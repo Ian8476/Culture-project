@@ -1,9 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { Spinner } from '@/shared/components';
+import { Button, EmptyState, Spinner } from '@/shared/components';
 import { communityRoute } from '@/shared/constants/routes.constants';
-import { formatDateTime } from '@/lib/utils/dates';
+import { formatDateTime, formatRelativeTime } from '@/lib/utils/dates';
 import { useDiscussion } from '../../hooks/useDiscussion';
 import { useComments } from '../../hooks/useComments';
 import { SpoilerContent } from '../SpoilerContent';
@@ -17,7 +17,8 @@ import {
 } from '../../constants/communities.constants';
 import {
   COMMENT_LIST_STYLES,
-  COMMUNITY_EMPTY_STYLES,
+  COMMUNITY_ERROR_ROW_STYLES,
+  COMMUNITY_ERROR_TEXT_STYLES,
   COMMUNITY_ERROR_STYLES,
   COMMUNITY_HEADER_STYLES,
   COMMUNITY_NAV_LINK_STYLES,
@@ -70,7 +71,12 @@ export function DiscussionDetail({ subgenreSlug, discussionId }: DiscussionDetai
         <p className={DISCUSSION_META_STYLES}>
           <span>{discussion.authorName}</span>
           <span>·</span>
-          <span>{formatDateTime(discussion.createdAt)}</span>
+          <time
+            dateTime={discussion.createdAt.toISOString()}
+            title={formatDateTime(discussion.createdAt)}
+          >
+            {formatRelativeTime(discussion.createdAt)}
+          </time>
           {discussion.hasSpoilers && (
             <span className={SPOILER_BADGE_STYLES}>{COMMUNITY_LABELS.SPOILER_BADGE}</span>
           )}
@@ -87,14 +93,23 @@ export function DiscussionDetail({ subgenreSlug, discussionId }: DiscussionDetai
         <h2 className={COMMUNITY_SECTION_HEADING_STYLES}>{COMMUNITY_TITLES.COMMENTS}</h2>
 
         {comments.error !== null && (
-          <p role="alert" className={COMMUNITY_ERROR_STYLES}>
-            {comments.error}
-          </p>
+          <div role="alert" className={COMMUNITY_ERROR_ROW_STYLES}>
+            <p className={COMMUNITY_ERROR_TEXT_STYLES}>{comments.error}</p>
+            <Button
+              label={COMMUNITY_BUTTONS.RETRY}
+              variant="secondary"
+              size="sm"
+              onClick={() => void comments.refresh()}
+            />
+          </div>
         )}
         {comments.isLoading ? (
           <Spinner size="sm" ariaLabel={COMMUNITY_MESSAGES.LOADING} />
-        ) : comments.comments.length === 0 ? (
-          <p className={COMMUNITY_EMPTY_STYLES}>{COMMUNITY_MESSAGES.EMPTY_COMMENTS}</p>
+        ) : comments.error === null && comments.comments.length === 0 ? (
+          <EmptyState
+            title={COMMUNITY_MESSAGES.EMPTY_COMMENTS}
+            hint={COMMUNITY_MESSAGES.EMPTY_COMMENTS_HINT}
+          />
         ) : (
           <div className={COMMENT_LIST_STYLES}>
             {comments.comments.map((comment) => (

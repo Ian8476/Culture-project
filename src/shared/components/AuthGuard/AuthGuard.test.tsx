@@ -1,9 +1,10 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, waitFor } from '@testing-library/react';
-import { ROUTES } from '@/shared/constants/routes.constants';
+import { loginRouteWithNext } from '@/shared/constants/routes.constants';
 import { AuthGuard } from './AuthGuard';
 
 const replaceMock = vi.fn();
+const PROTECTED_PATH = '/profile';
 
 let mockAuth: { user: { uid: string } | null; isLoading: boolean; signOut: () => Promise<void> } = {
   user: { uid: 'u1' },
@@ -13,6 +14,7 @@ let mockAuth: { user: { uid: string } | null; isLoading: boolean; signOut: () =>
 
 vi.mock('next/navigation', () => ({
   useRouter: () => ({ replace: replaceMock, push: vi.fn() }),
+  usePathname: () => PROTECTED_PATH,
 }));
 
 vi.mock('@/shared/hooks/useAuthContext', () => ({
@@ -34,14 +36,16 @@ describe('AuthGuard', () => {
     expect(screen.getByText('contenido protegido')).toBeInTheDocument();
   });
 
-  it('redirige a /login y oculta los hijos sin sesión', async () => {
+  it('redirige a /login recordando la ruta original y oculta los hijos sin sesión', async () => {
     mockAuth = { user: null, isLoading: false, signOut: vi.fn() };
     render(
       <AuthGuard>
         <span>contenido protegido</span>
       </AuthGuard>,
     );
-    await waitFor(() => expect(replaceMock).toHaveBeenCalledWith(ROUTES.AUTH.LOGIN));
+    await waitFor(() =>
+      expect(replaceMock).toHaveBeenCalledWith(loginRouteWithNext(PROTECTED_PATH)),
+    );
     expect(screen.queryByText('contenido protegido')).not.toBeInTheDocument();
   });
 });

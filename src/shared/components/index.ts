@@ -8,6 +8,10 @@ export { WeightSlider } from './WeightSlider';
 export { Spinner } from './Spinner';
 export { FormField } from './FormField';
 export { AuthGuard } from './AuthGuard';
+export { GuestGuard } from './GuestGuard';
+export { AppHeader } from './AppHeader';
+export { LandingCta } from './LandingCta';
+export { EmptyState } from './EmptyState';
 
 export type { ButtonProps, ButtonVariant, ButtonSize, ButtonType } from './Button';
 export type { InputProps, InputType } from './Input';
@@ -19,3 +23,6 @@ export type { WeightSliderProps } from './WeightSlider';
 export type { SpinnerProps, SpinnerSize } from './Spinner';
 export type { FormFieldProps } from './FormField';
 export type { AuthGuardProps } from './AuthGuard';
+export type { GuestGuardProps } from './GuestGuard';
+export type { LandingCtaProps, LandingCtaVariant } from './LandingCta';
+export type { EmptyStateProps } from './EmptyState';

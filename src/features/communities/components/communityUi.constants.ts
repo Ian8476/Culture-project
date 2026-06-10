@@ -12,7 +12,10 @@ export const COMMUNITY_SECTION_HEADING_STYLES =
   'text-xs font-semibold uppercase tracking-[0.25em] text-ochre' as const;
 export const COMMUNITY_ERROR_STYLES =
   'rounded-sm border border-alert/30 bg-alert-soft px-3 py-2 text-sm text-alert' as const;
-export const COMMUNITY_EMPTY_STYLES = 'text-sm italic text-ink-soft' as const;
+// Variante de error con acción de reintento al lado.
+export const COMMUNITY_ERROR_ROW_STYLES =
+  'flex flex-wrap items-center justify-between gap-3 rounded-sm border border-alert/30 bg-alert-soft px-3 py-2' as const;
+export const COMMUNITY_ERROR_TEXT_STYLES = 'text-sm text-alert' as const;
 export const COMMUNITY_NAV_STYLES = 'mb-8 flex flex-wrap items-center gap-3 text-sm' as const;
 export const COMMUNITY_NAV_LINK_STYLES =
   'text-accent underline-offset-4 transition-colors hover:text-accent-deep hover:underline' as const;

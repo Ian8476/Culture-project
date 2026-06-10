@@ -1,5 +1,11 @@
 import { initializeApp, getApps, getApp, type FirebaseApp } from 'firebase/app';
-import { getAuth, type Auth } from 'firebase/auth';
+import {
+  getAuth,
+  initializeAuth,
+  browserLocalPersistence,
+  indexedDBLocalPersistence,
+  type Auth,
+} from 'firebase/auth';
 import { getFirestore, type Firestore } from 'firebase/firestore';
 
 // Las claves del cliente de Firebase son públicas por diseño (el SDK las usa en el
@@ -16,7 +22,22 @@ const firebaseConfig = {
 // Evita reinicializar el SDK en hot-reload / múltiples imports.
 const firebaseApp: FirebaseApp = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
 
-export const auth: Auth = getAuth(firebaseApp);
+// Persistencia local explícita: la sesión sobrevive a cerrar la pestaña o el
+// navegador (IndexedDB con respaldo en localStorage). En SSR no hay browser
+// storage, y en hot-reload initializeAuth lanza si ya fue inicializado: en
+// ambos casos getAuth devuelve la instancia con su configuración previa.
+function createAuth(app: FirebaseApp): Auth {
+  if (typeof window === 'undefined') return getAuth(app);
+  try {
+    return initializeAuth(app, {
+      persistence: [indexedDBLocalPersistence, browserLocalPersistence],
+    });
+  } catch {
+    return getAuth(app);
+  }
+}
+
+export const auth: Auth = createAuth(firebaseApp);
 export const db: Firestore = getFirestore(firebaseApp);
 
 export { firebaseApp };

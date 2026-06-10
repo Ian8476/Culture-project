@@ -3,7 +3,6 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button, Spinner } from '@/shared/components';
-import { useAuthContext } from '@/shared/hooks/useAuthContext';
 import { ROUTES } from '@/shared/constants/routes.constants';
 import type { KnowledgeLevel } from '@/shared/types/domain.types';
 import { useCatalog } from '@/shared/hooks/useCatalog';
@@ -32,9 +31,9 @@ function nameBySlug<T extends { slug: string; name: string }>(items: T[]): Recor
 }
 
 // Componente raíz de la vista de perfil propio (solo lectura).
+// Cerrar sesión vive en el AppHeader global, no aquí.
 export function ProfileView() {
   const router = useRouter();
-  const { signOut } = useAuthContext();
   const { profile, isLoading, error } = useProfile();
   const { interests, subgenres, perspectives, isLoading: catalogLoading } = useCatalog();
 
@@ -43,11 +42,6 @@ export function ProfileView() {
       router.replace(ROUTES.PROFILE.SETUP);
     }
   }, [isLoading, error, profile, router]);
-
-  async function handleSignOut(): Promise<void> {
-    await signOut();
-    router.push(ROUTES.HOME);
-  }
 
   if (isLoading || catalogLoading) {
     return (
@@ -128,7 +122,6 @@ export function ProfileView() {
           variant="secondary"
           onClick={() => router.push(ROUTES.PROFILE.EDIT)}
         />
-        <Button label={PROFILE_BUTTONS.SIGN_OUT} variant="ghost" onClick={handleSignOut} />
       </div>
     </main>
   );

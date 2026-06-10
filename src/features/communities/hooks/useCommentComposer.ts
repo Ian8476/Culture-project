@@ -2,10 +2,11 @@
 
 import { useState } from 'react';
 import { useAuthContext } from '@/shared/hooks/useAuthContext';
+import { useToast } from '@/shared/hooks/useToast';
 import { AppError } from '@/shared/types/errors.types';
 import { addComment } from '../services/discussion.service';
 import { getMemberProfile } from '../services/members.service';
-import { COMMUNITY_MESSAGES } from '../constants/communities.constants';
+import { COMMUNITY_MESSAGES, COMMUNITY_TOASTS } from '../constants/communities.constants';
 
 interface CommentComposerParams {
   discussionId: string;
@@ -15,6 +16,7 @@ interface CommentComposerParams {
 // Estado y envío del formulario de comentario.
 export function useCommentComposer({ discussionId, onCreated }: CommentComposerParams) {
   const { user } = useAuthContext();
+  const { showToast } = useToast();
   const [body, setBody] = useState('');
   const [hasSpoilers, setHasSpoilers] = useState(false);
   const [bodyError, setBodyError] = useState<string | null>(null);
@@ -44,6 +46,7 @@ export function useCommentComposer({ discussionId, onCreated }: CommentComposerP
       });
       setBody('');
       setHasSpoilers(false);
+      showToast(COMMUNITY_TOASTS.COMMENT_PUBLISHED);
       onCreated();
     } catch (caught) {
       setError(caught instanceof AppError ? caught.message : COMMUNITY_MESSAGES.SAVE_COMMENT_ERROR);

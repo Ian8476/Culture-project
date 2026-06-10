@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Button, Spinner } from '@/shared/components';
+import { Button, EmptyState, Spinner } from '@/shared/components';
 import { discussionRoute, ROUTES } from '@/shared/constants/routes.constants';
 import { useCommunity } from '../../hooks/useCommunity';
 import { useCommunityMembers } from '../../hooks/useCommunityMembers';
@@ -16,7 +16,8 @@ import {
   COMMUNITY_TITLES,
 } from '../../constants/communities.constants';
 import {
-  COMMUNITY_EMPTY_STYLES,
+  COMMUNITY_ERROR_ROW_STYLES,
+  COMMUNITY_ERROR_TEXT_STYLES,
   COMMUNITY_ERROR_STYLES,
   COMMUNITY_EYEBROW_STYLES,
   COMMUNITY_HEADER_STYLES,
@@ -80,14 +81,23 @@ export function CommunityDetail({ subgenreSlug }: CommunityDetailProps) {
       <section className={COMMUNITY_SECTION_STYLES}>
         <h2 className={COMMUNITY_SECTION_HEADING_STYLES}>{COMMUNITY_TITLES.MEMBERS}</h2>
         {members.error !== null && (
-          <p role="alert" className={COMMUNITY_ERROR_STYLES}>
-            {members.error}
-          </p>
+          <div role="alert" className={COMMUNITY_ERROR_ROW_STYLES}>
+            <p className={COMMUNITY_ERROR_TEXT_STYLES}>{members.error}</p>
+            <Button
+              label={COMMUNITY_BUTTONS.RETRY}
+              variant="secondary"
+              size="sm"
+              onClick={() => void members.refresh()}
+            />
+          </div>
         )}
         {members.isLoading ? (
           <Spinner size="sm" ariaLabel={COMMUNITY_MESSAGES.LOADING} />
-        ) : members.members.length === 0 ? (
-          <p className={COMMUNITY_EMPTY_STYLES}>{COMMUNITY_MESSAGES.EMPTY_MEMBERS}</p>
+        ) : members.error === null && members.members.length === 0 ? (
+          <EmptyState
+            title={COMMUNITY_MESSAGES.EMPTY_MEMBERS}
+            hint={COMMUNITY_MESSAGES.EMPTY_MEMBERS_HINT}
+          />
         ) : (
           <div className={MEMBER_LIST_STYLES}>
             {members.members.map((member) => (
@@ -117,14 +127,23 @@ export function CommunityDetail({ subgenreSlug }: CommunityDetailProps) {
         )}
 
         {discussions.error !== null && (
-          <p role="alert" className={COMMUNITY_ERROR_STYLES}>
-            {discussions.error}
-          </p>
+          <div role="alert" className={COMMUNITY_ERROR_ROW_STYLES}>
+            <p className={COMMUNITY_ERROR_TEXT_STYLES}>{discussions.error}</p>
+            <Button
+              label={COMMUNITY_BUTTONS.RETRY}
+              variant="secondary"
+              size="sm"
+              onClick={() => void discussions.refresh()}
+            />
+          </div>
         )}
         {discussions.isLoading ? (
           <Spinner size="sm" ariaLabel={COMMUNITY_MESSAGES.LOADING} />
-        ) : discussions.discussions.length === 0 ? (
-          <p className={COMMUNITY_EMPTY_STYLES}>{COMMUNITY_MESSAGES.EMPTY_DISCUSSIONS}</p>
+        ) : discussions.error === null && discussions.discussions.length === 0 ? (
+          <EmptyState
+            title={COMMUNITY_MESSAGES.EMPTY_DISCUSSIONS}
+            hint={COMMUNITY_MESSAGES.EMPTY_DISCUSSIONS_HINT}
+          />
         ) : (
           <div className={DISCUSSION_LIST_STYLES}>
             {discussions.discussions.map((discussion) => (

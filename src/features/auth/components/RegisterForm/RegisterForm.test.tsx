@@ -40,7 +40,9 @@ describe('RegisterForm', () => {
     fireEvent.change(screen.getByLabelText(AUTH_LABELS.EMAIL, { exact: false }), {
       target: { value: 'ana@example.com' },
     });
-    fireEvent.change(screen.getByLabelText(AUTH_LABELS.PASSWORD, { exact: false }), {
+    // Regex anclado al inicio: el toggle "Mostrar contraseña" también contiene
+    // la palabra y colisionaría con un match por substring.
+    fireEvent.change(screen.getByLabelText(new RegExp(`^${AUTH_LABELS.PASSWORD}`)), {
       target: { value: 'segura123' },
     });
     fireEvent.click(screen.getByRole('button', { name: AUTH_BUTTONS.REGISTER }));

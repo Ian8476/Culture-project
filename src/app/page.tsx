@@ -1,37 +1,11 @@
-import Link from 'next/link';
 import { APP_NAME, APP_DESCRIPTION } from '@/shared/constants/app.constants';
-import { ROUTES } from '@/shared/constants/routes.constants';
+import { LandingCta } from '@/shared/components';
 
-// Las pages solo delegan/estructuran. La landing es presentación pura sin lógica.
+// Las pages solo delegan/estructuran. La landing es presentación pura; el header
+// global (AppHeader) y los CTA (LandingCta) reflejan la sesión persistida.
 export default function Page() {
   return (
     <>
-      {/* Cabecera tipo masthead editorial */}
-      <header className="sticky top-0 z-40 border-b border-line bg-paper/85 backdrop-blur-md">
-        <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-          <Link
-            href={ROUTES.HOME}
-            className="font-display text-xl font-semibold italic tracking-tight text-ink"
-          >
-            {APP_NAME}
-          </Link>
-          <div className="flex items-center gap-3 sm:gap-6">
-            <Link
-              href={ROUTES.AUTH.LOGIN}
-              className="text-sm font-medium text-ink-soft transition-colors hover:text-ink"
-            >
-              Iniciar sesión
-            </Link>
-            <Link
-              href={ROUTES.AUTH.REGISTER}
-              className="rounded-full bg-ink px-5 py-2 text-sm font-medium text-paper transition-all hover:bg-accent active:scale-95"
-            >
-              Crear cuenta
-            </Link>
-          </div>
-        </nav>
-      </header>
-
       <main className="flex-1">
         {/* Hero */}
         <section className="relative mx-auto grid max-w-6xl items-center gap-16 overflow-x-clip px-6 pb-24 pt-16 lg:grid-cols-12 lg:gap-8 lg:pt-24">
@@ -53,19 +27,8 @@ export default function Page() {
             <p className="reveal mt-6 max-w-xl text-lg leading-relaxed text-ink-soft [animation-delay:240ms]">
               {APP_DESCRIPTION}
             </p>
-            <div className="reveal mt-10 flex flex-wrap items-center gap-4 [animation-delay:360ms]">
-              <Link
-                href={ROUTES.AUTH.REGISTER}
-                className="rounded-full bg-accent px-8 py-3.5 text-sm font-semibold tracking-wide text-paper shadow-lg shadow-accent/25 transition-all hover:bg-accent-deep hover:shadow-accent/40 active:scale-95"
-              >
-                Unirme a la tertulia
-              </Link>
-              <Link
-                href={ROUTES.AUTH.LOGIN}
-                className="rounded-full border border-line bg-surface px-8 py-3.5 text-sm font-semibold tracking-wide text-ink transition-colors hover:border-ink"
-              >
-                Ya tengo cuenta
-              </Link>
+            <div className="reveal mt-10 [animation-delay:360ms]">
+              <LandingCta variant="hero" />
             </div>
             <p className="reveal mt-8 text-sm text-ink-soft [animation-delay:480ms]">
               Aquí las discusiones marcan los spoilers:{' '}
@@ -273,13 +236,8 @@ export default function Page() {
             <h2 className="font-display text-4xl font-semibold italic tracking-tight text-ink sm:text-5xl">
               La butaca de al lado está libre.
             </h2>
-            <div className="mt-10">
-              <Link
-                href={ROUTES.AUTH.REGISTER}
-                className="inline-block rounded-full bg-ink px-10 py-4 text-sm font-semibold tracking-wide text-paper transition-all hover:bg-accent active:scale-95"
-              >
-                Crear cuenta gratis
-              </Link>
+            <div className="mt-10 flex justify-center">
+              <LandingCta variant="closing" />
             </div>
           </div>
         </section>

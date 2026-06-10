@@ -8,6 +8,10 @@ vi.mock('@/shared/hooks/useAuthContext', () => ({
   useAuthContext: () => ({ user: { uid: 'u1' }, isLoading: false, signOut: vi.fn() }),
 }));
 
+vi.mock('@/shared/hooks/useToast', () => ({
+  useToast: () => ({ showToast: vi.fn() }),
+}));
+
 vi.mock('../../services/members.service', () => ({
   getMembersBySubgenre: vi.fn(),
   getMemberProfile: vi.fn(),
