@@ -13,6 +13,8 @@ import type {
   Perspective,
   ProfileInterest,
   ProfilePerspective,
+  Discussion,
+  DiscussionComment,
 } from '@/shared/types/domain.types';
 
 // Helpers de traducción Firestore <-> dominio. Mantienen los tipos de Firestore
@@ -114,6 +116,64 @@ export const subgenreConverter: FirestoreDataConverter<Subgenre> = {
       name: data.name as string,
       slug: data.slug as string,
       active: data.active as boolean,
+    };
+  },
+};
+
+export const discussionConverter: FirestoreDataConverter<Discussion> = {
+  toFirestore(discussion) {
+    return {
+      subgenreSlug: discussion.subgenreSlug,
+      interestSlug: discussion.interestSlug,
+      title: discussion.title,
+      body: discussion.body,
+      hasSpoilers: discussion.hasSpoilers,
+      authorId: discussion.authorId,
+      authorName: discussion.authorName,
+      createdAt: Timestamp.fromDate(discussion.createdAt as Date),
+    };
+  },
+  fromFirestore(
+    snapshot: QueryDocumentSnapshot<DocumentData>,
+    options?: SnapshotOptions,
+  ): Discussion {
+    const data = snapshot.data(options);
+    return {
+      id: snapshot.id,
+      subgenreSlug: data.subgenreSlug as string,
+      interestSlug: data.interestSlug as string,
+      title: data.title as string,
+      body: data.body as string,
+      hasSpoilers: data.hasSpoilers as boolean,
+      authorId: data.authorId as string,
+      authorName: data.authorName as string,
+      createdAt: toDate(data.createdAt),
+    };
+  },
+};
+
+export const discussionCommentConverter: FirestoreDataConverter<DiscussionComment> = {
+  toFirestore(comment) {
+    return {
+      body: comment.body,
+      hasSpoilers: comment.hasSpoilers,
+      authorId: comment.authorId,
+      authorName: comment.authorName,
+      createdAt: Timestamp.fromDate(comment.createdAt as Date),
+    };
+  },
+  fromFirestore(
+    snapshot: QueryDocumentSnapshot<DocumentData>,
+    options?: SnapshotOptions,
+  ): DiscussionComment {
+    const data = snapshot.data(options);
+    return {
+      id: snapshot.id,
+      body: data.body as string,
+      hasSpoilers: data.hasSpoilers as boolean,
+      authorId: data.authorId as string,
+      authorName: data.authorName as string,
+      createdAt: toDate(data.createdAt),
     };
   },
 };

@@ -1,5 +1,7 @@
 export { Button } from './Button';
 export { Input } from './Input';
+export { TextArea } from './TextArea';
+export { Checkbox } from './Checkbox';
 export { Select } from './Select';
 export { MultiSelect } from './MultiSelect';
 export { WeightSlider } from './WeightSlider';
@@ -9,6 +11,8 @@ export { AuthGuard } from './AuthGuard';
 
 export type { ButtonProps, ButtonVariant, ButtonSize, ButtonType } from './Button';
 export type { InputProps, InputType } from './Input';
+export type { TextAreaProps } from './TextArea';
+export type { CheckboxProps } from './Checkbox';
 export type { SelectProps } from './Select';
 export type { MultiSelectProps } from './MultiSelect';
 export type { WeightSliderProps } from './WeightSlider';

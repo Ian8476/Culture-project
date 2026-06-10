@@ -1,11 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import * as firestore from 'firebase/firestore';
-import {
-  clearCatalogCache,
-  getInterests,
-  getPerspectives,
-  getSubgenres,
-} from './catalog.service';
+import { clearCatalogCache, getInterests, getPerspectives, getSubgenres } from './catalog.service';
 
 vi.mock('@/lib/firebase/client', () => ({ db: {} }));
 vi.mock('@/lib/firebase/converters', () => ({

@@ -5,8 +5,8 @@ import { useRouter } from 'next/navigation';
 import { Spinner } from '@/shared/components';
 import { ROUTES } from '@/shared/constants/routes.constants';
 import type { Profile } from '@/shared/types/domain.types';
+import { useCatalog } from '@/shared/hooks/useCatalog';
 import { useProfile } from '../../hooks/useProfile';
-import { useCatalog } from '../../hooks/useCatalog';
 import { useProfileForm } from '../../hooks/useProfileForm';
 import { useProfileEdit } from '../../hooks/useProfileEdit';
 import { ProfileForm } from '../ProfileForm';
@@ -17,10 +17,7 @@ import {
   PROFILE_MESSAGES,
 } from '../../constants/profile.constants';
 import type { ProfileFormValues } from '../../types/profile.types';
-import {
-  PROFILE_PAGE_WRAPPER_STYLES,
-  PROFILE_FORM_ERROR_STYLES,
-} from '../profileForm.constants';
+import { PROFILE_PAGE_WRAPPER_STYLES, PROFILE_FORM_ERROR_STYLES } from '../profileForm.constants';
 
 // Traduce el perfil de dominio a los valores iniciales del formulario.
 function toFormValues(profile: Profile): ProfileFormValues {
@@ -37,8 +34,13 @@ function toFormValues(profile: Profile): ProfileFormValues {
 // garantizando que useProfileForm reciba sus valores iniciales en el primer render.
 function ProfileEditReady({ profile }: { profile: Profile }) {
   const form = useProfileForm(toFormValues(profile));
-  const { interests, subgenres, perspectives, isLoading: catalogLoading, error: catalogError } =
-    useCatalog();
+  const {
+    interests,
+    subgenres,
+    perspectives,
+    isLoading: catalogLoading,
+    error: catalogError,
+  } = useCatalog();
   const { submit, isLoading, error } = useProfileEdit();
 
   return (

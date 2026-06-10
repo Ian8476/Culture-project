@@ -6,8 +6,8 @@ import { Button, Spinner } from '@/shared/components';
 import { useAuthContext } from '@/shared/hooks/useAuthContext';
 import { ROUTES } from '@/shared/constants/routes.constants';
 import type { KnowledgeLevel } from '@/shared/types/domain.types';
+import { useCatalog } from '@/shared/hooks/useCatalog';
 import { useProfile } from '../../hooks/useProfile';
-import { useCatalog } from '../../hooks/useCatalog';
 import {
   KNOWLEDGE_LEVEL_LABELS,
   PROFILE_BUTTONS,
@@ -120,7 +120,12 @@ export function ProfileView() {
 
       <div className={PROFILE_ACTIONS_STYLES}>
         <Button
+          label={PROFILE_BUTTONS.GO_COMMUNITIES}
+          onClick={() => router.push(ROUTES.COMMUNITIES.ROOT)}
+        />
+        <Button
           label={PROFILE_BUTTONS.GO_EDIT}
+          variant="secondary"
           onClick={() => router.push(ROUTES.PROFILE.EDIT)}
         />
         <Button label={PROFILE_BUTTONS.SIGN_OUT} variant="ghost" onClick={handleSignOut} />

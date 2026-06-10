@@ -1,6 +1,6 @@
 'use client';
 
-import { useCatalog } from '../../hooks/useCatalog';
+import { useCatalog } from '@/shared/hooks/useCatalog';
 import { useProfileForm } from '../../hooks/useProfileForm';
 import { useProfileSetup } from '../../hooks/useProfileSetup';
 import { ProfileForm } from '../ProfileForm';
@@ -13,8 +13,13 @@ import {
 // Componente raíz del onboarding cultural.
 export function ProfileSetupForm() {
   const form = useProfileForm();
-  const { interests, subgenres, perspectives, isLoading: catalogLoading, error: catalogError } =
-    useCatalog();
+  const {
+    interests,
+    subgenres,
+    perspectives,
+    isLoading: catalogLoading,
+    error: catalogError,
+  } = useCatalog();
   const { submit, isLoading, error } = useProfileSetup();
 
   return (

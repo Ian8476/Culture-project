@@ -27,11 +27,15 @@ vi.mock('../../services/profile.service', () => ({
   updateProfile: vi.fn(),
 }));
 
-vi.mock('../../services/catalog.service', () => ({
-  getInterests: vi.fn().mockResolvedValue([{ id: 'cine', name: 'Cine', slug: 'cine', active: true }]),
+vi.mock('@/shared/services/catalog.service', () => ({
+  getInterests: vi
+    .fn()
+    .mockResolvedValue([{ id: 'cine', name: 'Cine', slug: 'cine', active: true }]),
   getSubgenres: vi
     .fn()
-    .mockResolvedValue([{ id: 'drama', name: 'Drama', slug: 'drama', interestSlug: 'cine', active: true }]),
+    .mockResolvedValue([
+      { id: 'drama', name: 'Drama', slug: 'drama', interestSlug: 'cine', active: true },
+    ]),
   getPerspectives: vi
     .fn()
     .mockResolvedValue([{ id: 'trama', name: 'Trama', description: null, active: true }]),

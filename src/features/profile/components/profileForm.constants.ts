@@ -7,8 +7,7 @@ export const PROFILE_TITLE_STYLES =
 export const PROFILE_SUBTITLE_STYLES = 'text-ink-soft' as const;
 export const PROFILE_FORM_STYLES = 'flex flex-col gap-10' as const;
 export const PROFILE_SECTION_STYLES = 'flex flex-col gap-3' as const;
-export const PROFILE_SECTION_TITLE_STYLES =
-  'font-display text-xl font-semibold text-ink' as const;
+export const PROFILE_SECTION_TITLE_STYLES = 'font-display text-xl font-semibold text-ink' as const;
 export const PROFILE_SECTION_HINT_STYLES = 'text-sm text-ink-soft' as const;
 export const PROFILE_LEVEL_ROW_STYLES = 'flex items-center justify-between gap-4' as const;
 export const PROFILE_LEVEL_NAME_STYLES = 'text-sm font-medium text-ink' as const;

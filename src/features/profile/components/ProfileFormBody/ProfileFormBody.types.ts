@@ -1,4 +1,8 @@
-import type { CatalogData, ProfileFieldErrors, ProfileFormController } from '../../types/profile.types';
+import type {
+  CatalogData,
+  ProfileFieldErrors,
+  ProfileFormController,
+} from '../../types/profile.types';
 
 export interface ProfileFormBodyProps {
   form: ProfileFormController;

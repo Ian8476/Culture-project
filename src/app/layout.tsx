@@ -30,10 +30,7 @@ interface RootLayoutProps {
 
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html
-      lang="es"
-      className={`${fraunces.variable} ${albertSans.variable} h-full antialiased`}
-    >
+    <html lang="es" className={`${fraunces.variable} ${albertSans.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col bg-paper font-sans text-ink">
         <AuthProvider>{children}</AuthProvider>
       </body>

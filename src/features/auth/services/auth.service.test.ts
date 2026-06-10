@@ -34,9 +34,7 @@ beforeEach(() => {
 
 describe('register', () => {
   it('crea el usuario, fija displayName, escribe el doc users y devuelve el uid', async () => {
-    vi.mocked(firebaseAuth.createUserWithEmailAndPassword).mockResolvedValue(
-      credential as never,
-    );
+    vi.mocked(firebaseAuth.createUserWithEmailAndPassword).mockResolvedValue(credential as never);
     vi.mocked(firebaseAuth.updateProfile).mockResolvedValue(undefined);
     vi.mocked(firestore.setDoc).mockResolvedValue(undefined as never);
 

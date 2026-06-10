@@ -131,13 +131,18 @@ export default function Page() {
         </section>
 
         {/* Marquesina */}
-        <div className="overflow-hidden border-y border-ink/20 bg-ink py-3 text-paper" aria-hidden="true">
+        <div
+          className="overflow-hidden border-y border-ink/20 bg-ink py-3 text-paper"
+          aria-hidden="true"
+        >
           <div className="flex w-max animate-marquee">
             <p className="shrink-0 pr-8 text-sm font-semibold uppercase tracking-[0.35em]">
-              Cine ✦ Teatro ✦ Lectura ✦ Sin spoilers ✦ Por subgénero ✦ Por nivel ✦ Por perspectiva ✦{' '}
+              Cine ✦ Teatro ✦ Lectura ✦ Sin spoilers ✦ Por subgénero ✦ Por nivel ✦ Por perspectiva
+              ✦{' '}
             </p>
             <p className="shrink-0 pr-8 text-sm font-semibold uppercase tracking-[0.35em]">
-              Cine ✦ Teatro ✦ Lectura ✦ Sin spoilers ✦ Por subgénero ✦ Por nivel ✦ Por perspectiva ✦{' '}
+              Cine ✦ Teatro ✦ Lectura ✦ Sin spoilers ✦ Por subgénero ✦ Por nivel ✦ Por perspectiva
+              ✦{' '}
             </p>
           </div>
         </div>

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { AppError } from '@/shared/types/errors.types';
 import type { Interest, Perspective, Subgenre } from '@/shared/types/domain.types';
 import { getInterests, getPerspectives, getSubgenres } from '../services/catalog.service';
-import { PROFILE_MESSAGES } from '../constants/profile.constants';
+import { CATALOG_MESSAGES } from '../constants/catalog.constants';
 
 // Carga los tres catálogos en paralelo (con caching en el service).
 export function useCatalog() {
@@ -30,7 +30,7 @@ export function useCatalog() {
         setPerspectives(loadedPerspectives);
       } catch (caught) {
         if (!active) return;
-        setError(caught instanceof AppError ? caught.message : PROFILE_MESSAGES.CATALOG_ERROR);
+        setError(caught instanceof AppError ? caught.message : CATALOG_MESSAGES.LOAD_ERROR);
       } finally {
         if (active) setIsLoading(false);
       }

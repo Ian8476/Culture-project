@@ -2,10 +2,8 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { renderHook, act, waitFor } from '@testing-library/react';
 import { ROUTES } from '@/shared/constants/routes.constants';
 import * as profileService from '../services/profile.service';
-import * as catalogService from '../services/catalog.service';
 import type { ProfileFormValues } from '../types/profile.types';
 import { useProfile } from './useProfile';
-import { useCatalog } from './useCatalog';
 import { useProfileSetup } from './useProfileSetup';
 import { useProfileEdit } from './useProfileEdit';
 
@@ -23,12 +21,6 @@ vi.mock('../services/profile.service', () => ({
   getProfile: vi.fn(),
   createProfile: vi.fn(),
   updateProfile: vi.fn(),
-}));
-
-vi.mock('../services/catalog.service', () => ({
-  getInterests: vi.fn(),
-  getSubgenres: vi.fn(),
-  getPerspectives: vi.fn(),
 }));
 
 const values: ProfileFormValues = {
@@ -52,20 +44,6 @@ describe('useProfile', () => {
 
     await waitFor(() => expect(result.current.isLoading).toBe(false));
     expect(result.current.profile).toEqual(profile);
-  });
-});
-
-describe('useCatalog', () => {
-  it('carga los tres catálogos', async () => {
-    vi.mocked(catalogService.getInterests).mockResolvedValue([{ id: 'cine' }] as never);
-    vi.mocked(catalogService.getSubgenres).mockResolvedValue([] as never);
-    vi.mocked(catalogService.getPerspectives).mockResolvedValue([] as never);
-
-    const { result } = renderHook(() => useCatalog());
-
-    await waitFor(() => expect(result.current.isLoading).toBe(false));
-    expect(result.current.interests).toHaveLength(1);
-    expect(result.current.error).toBeNull();
   });
 });
 

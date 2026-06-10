@@ -1,6 +1,7 @@
 // Lectura de catálogos (intereses, subgéneros, perspectivas) con caching en
 // memoria: Firestore tarifica por lectura, así que el catálogo se lee una vez
-// por sesión (sección 16 del Project-context).
+// por sesión (sección 16 del Project-context). Vive en shared porque lo
+// consumen varias features (profile, communities).
 
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '@/lib/firebase/client';
@@ -12,7 +13,7 @@ import {
 } from '@/lib/firebase/converters';
 import { AppError } from '@/shared/types/errors.types';
 import type { Interest, Perspective, Subgenre } from '@/shared/types/domain.types';
-import { PROFILE_MESSAGES } from '../constants/profile.constants';
+import { CATALOG_MESSAGES } from '../constants/catalog.constants';
 
 let interestsCache: Interest[] | null = null;
 let subgenresCache: Subgenre[] | null = null;
@@ -34,7 +35,7 @@ export async function getInterests(): Promise<Interest[]> {
       .sort(byName);
     return interestsCache;
   } catch {
-    throw new AppError(PROFILE_MESSAGES.CATALOG_ERROR);
+    throw new AppError(CATALOG_MESSAGES.LOAD_ERROR);
   }
 }
 
@@ -50,7 +51,7 @@ export async function getSubgenres(): Promise<Subgenre[]> {
       .sort(byName);
     return subgenresCache;
   } catch {
-    throw new AppError(PROFILE_MESSAGES.CATALOG_ERROR);
+    throw new AppError(CATALOG_MESSAGES.LOAD_ERROR);
   }
 }
 
@@ -66,7 +67,7 @@ export async function getPerspectives(): Promise<Perspective[]> {
       .sort(byName);
     return perspectivesCache;
   } catch {
-    throw new AppError(PROFILE_MESSAGES.CATALOG_ERROR);
+    throw new AppError(CATALOG_MESSAGES.LOAD_ERROR);
   }
 }
 

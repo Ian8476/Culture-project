@@ -52,3 +52,27 @@ export interface Perspective {
   description: string | null;
   active: boolean;
 }
+
+// Discusión dentro de la comunidad de un subgénero. El contenido marcado con
+// hasSpoilers se oculta en la UI hasta que el lector decida revelarlo.
+export interface Discussion {
+  id: string;
+  subgenreSlug: string;
+  interestSlug: string;
+  title: string;
+  body: string;
+  hasSpoilers: boolean;
+  authorId: string;
+  authorName: string;
+  createdAt: Date;
+}
+
+// Comentario en una discusión (subcolección `comments` del documento).
+export interface DiscussionComment {
+  id: string;
+  body: string;
+  hasSpoilers: boolean;
+  authorId: string;
+  authorName: string;
+  createdAt: Date;
+}

@@ -88,6 +88,7 @@ export const PROFILE_BUTTONS = {
   SAVE_SETUP: 'Guardar y continuar',
   SAVE_EDIT: 'Guardar cambios',
   GO_EDIT: 'Editar perfil',
+  GO_COMMUNITIES: 'Explorar comunidades',
   SIGN_OUT: 'Cerrar sesión',
 } as const;
 

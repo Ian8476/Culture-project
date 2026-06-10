@@ -6,4 +6,7 @@ export const COLLECTIONS = {
   INTERESTS: 'interests',
   SUBGENRES: 'subgenres',
   PERSPECTIVES: 'perspectives',
+  DISCUSSIONS: 'discussions',
+  // Subcolección de cada documento de `discussions`.
+  DISCUSSION_COMMENTS: 'comments',
 } as const;

@@ -25,10 +25,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
     await firebaseSignOut(auth);
   };
 
-  const value = useMemo<AuthContextValue>(
-    () => ({ user, isLoading, signOut }),
-    [user, isLoading],
-  );
+  const value = useMemo<AuthContextValue>(() => ({ user, isLoading, signOut }), [user, isLoading]);
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

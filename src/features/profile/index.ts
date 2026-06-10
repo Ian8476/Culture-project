@@ -4,15 +4,5 @@ export { ProfileEditForm } from './components/ProfileEditForm';
 export { ProfileView } from './components/ProfileView';
 
 export { getProfile, createProfile, updateProfile } from './services/profile.service';
-export {
-  getInterests,
-  getSubgenres,
-  getPerspectives,
-  clearCatalogCache,
-} from './services/catalog.service';
 
-export type {
-  ProfileFormValues,
-  ProfileFieldErrors,
-  CatalogData,
-} from './types/profile.types';
+export type { ProfileFormValues, ProfileFieldErrors, CatalogData } from './types/profile.types';

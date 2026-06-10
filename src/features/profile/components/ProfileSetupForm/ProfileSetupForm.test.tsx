@@ -17,10 +17,10 @@ vi.mock('../../services/profile.service', () => ({
   updateProfile: vi.fn(),
 }));
 
-vi.mock('../../services/catalog.service', () => ({
-  getInterests: vi.fn().mockResolvedValue([
-    { id: 'cine', name: 'Cine', slug: 'cine', active: true },
-  ]),
+vi.mock('@/shared/services/catalog.service', () => ({
+  getInterests: vi
+    .fn()
+    .mockResolvedValue([{ id: 'cine', name: 'Cine', slug: 'cine', active: true }]),
   getSubgenres: vi.fn().mockResolvedValue([]),
   getPerspectives: vi.fn().mockResolvedValue([]),
 }));

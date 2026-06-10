@@ -11,6 +11,35 @@ service cloud.firestore {
       return isSignedIn() && request.auth.uid == userId;
     }
 
+    function isValidDiscussionShape(data) {
+      return data.keys().hasAll(['subgenreSlug', 'interestSlug', 'title', 'body', 'hasSpoilers', 'authorId', 'authorName'])
+        && data.subgenreSlug is string
+        && data.interestSlug is string
+        && data.title is string
+        && data.title.size() >= 3
+        && data.title.size() <= 120
+        && data.body is string
+        && data.body.size() >= 1
+        && data.body.size() <= 5000
+        && data.hasSpoilers is bool
+        && data.authorId == request.auth.uid
+        && data.authorName is string
+        && data.authorName.size() >= 3
+        && data.authorName.size() <= 50;
+    }
+
+    function isValidCommentShape(data) {
+      return data.keys().hasAll(['body', 'hasSpoilers', 'authorId', 'authorName'])
+        && data.body is string
+        && data.body.size() >= 1
+        && data.body.size() <= 2000
+        && data.hasSpoilers is bool
+        && data.authorId == request.auth.uid
+        && data.authorName is string
+        && data.authorName.size() >= 3
+        && data.authorName.size() <= 50;
+    }
+
     function isValidProfileShape(data) {
       return data.keys().hasAll(['displayName', 'interests', 'subgenres', 'perspectives'])
         && data.displayName is string
@@ -49,6 +78,22 @@ service cloud.firestore {
     match /perspectives/{id} {
       allow read: if isSignedIn();
       allow write: if false;
+    }
+
+    // Discusiones de comunidad: lectura para autenticados, creación con forma
+    // válida y autor = uid. Sin edición ni borrado en este sprint.
+    match /discussions/{discussionId} {
+      allow read: if isSignedIn();
+      allow create: if isSignedIn() && isValidDiscussionShape(request.resource.data);
+      allow update: if false;
+      allow delete: if false;
+
+      match /comments/{commentId} {
+        allow read: if isSignedIn();
+        allow create: if isSignedIn() && isValidCommentShape(request.resource.data);
+        allow update: if false;
+        allow delete: if false;
+      }
     }
   }
 }

@@ -3,10 +3,7 @@ import { MAX_INTERESTS } from '@/shared/constants/validation.constants';
 import type { KnowledgeLevel } from '@/shared/types/domain.types';
 import type { SelectOption } from '@/shared/types/common.types';
 import type { InterestPickerProps } from './InterestPicker.types';
-import {
-  KNOWLEDGE_LEVEL_OPTIONS,
-  PROFILE_LABELS,
-} from '../../constants/profile.constants';
+import { KNOWLEDGE_LEVEL_OPTIONS, PROFILE_LABELS } from '../../constants/profile.constants';
 import {
   PROFILE_SECTION_STYLES,
   PROFILE_LEVEL_ROW_STYLES,

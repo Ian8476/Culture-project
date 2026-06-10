@@ -20,8 +20,7 @@ export function MultiSelect({
     <div className={MULTI_SELECT_WRAPPER_STYLES} role="group" aria-label={ariaLabel}>
       {options.map((option) => {
         const isSelected = selectedValues.includes(option.value);
-        const isDisabled =
-          disabled || option.disabled === true || (isLimitReached && !isSelected);
+        const isDisabled = disabled || option.disabled === true || (isLimitReached && !isSelected);
         const chipStyle = isSelected ? MULTI_SELECT_CHIP_SELECTED : MULTI_SELECT_CHIP_UNSELECTED;
 
         return (
