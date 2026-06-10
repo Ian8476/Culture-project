@@ -41,7 +41,9 @@ export async function getDiscussionsBySubgenre(subgenreSlug: string): Promise<Di
     );
     const snapshot = await getDocs(discussionsQuery);
     return snapshot.docs.map((document) => document.data());
-  } catch {
+  } catch (error) {
+    // Si falta el índice compuesto, Firestore incluye aquí el enlace para crearlo.
+    console.error('[discussions] getDiscussionsBySubgenre falló:', error);
     throw new AppError(COMMUNITY_MESSAGES.DISCUSSIONS_ERROR);
   }
 }
@@ -78,7 +80,8 @@ export async function createDiscussion(input: NewDiscussionInput): Promise<strin
       [DISCUSSION_DOC_FIELDS.CREATED_AT]: serverTimestamp(),
     });
     return reference.id;
-  } catch {
+  } catch (error) {
+    console.error('[discussions] createDiscussion falló:', error);
     throw new AppError(COMMUNITY_MESSAGES.SAVE_DISCUSSION_ERROR);
   }
 }
