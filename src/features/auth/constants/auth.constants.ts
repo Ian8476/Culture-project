@@ -72,6 +72,8 @@ export const FIREBASE_AUTH_ERROR_CODES = {
   INVALID_CREDENTIAL: 'auth/invalid-credential',
   TOO_MANY_REQUESTS: 'auth/too-many-requests',
   NETWORK_REQUEST_FAILED: 'auth/network-request-failed',
+  OPERATION_NOT_ALLOWED: 'auth/operation-not-allowed',
+  CONFIGURATION_NOT_FOUND: 'auth/configuration-not-found',
 } as const;
 
 // Mensajes de error en español, mapeados desde los códigos de Firebase.
@@ -87,6 +89,10 @@ export const AUTH_ERROR_MESSAGES: Record<string, string> = {
     'Demasiados intentos. Espera unos minutos e inténtalo de nuevo.',
   [FIREBASE_AUTH_ERROR_CODES.NETWORK_REQUEST_FAILED]:
     'Error de red. Revisa tu conexión e inténtalo de nuevo.',
+  [FIREBASE_AUTH_ERROR_CODES.OPERATION_NOT_ALLOWED]:
+    'El registro por correo no está habilitado. Actívalo en Firebase Console > Authentication > Sign-in method.',
+  [FIREBASE_AUTH_ERROR_CODES.CONFIGURATION_NOT_FOUND]:
+    'Falta configurar Authentication en Firebase Console (habilita Email/Password).',
 };
 
 // Mensaje por defecto cuando el código de error no está mapeado.

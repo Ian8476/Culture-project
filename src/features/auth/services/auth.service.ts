@@ -24,8 +24,11 @@ import {
 // Traduce cualquier error de Firebase a un `AuthError` con mensaje en español.
 function toAuthError(error: unknown): AuthError {
   if (error instanceof FirebaseError) {
+    // El código original de Firebase se registra para facilitar el diagnóstico.
+    console.error('[auth] FirebaseError:', error.code);
     return new AuthError(AUTH_ERROR_MESSAGES[error.code] ?? AUTH_DEFAULT_ERROR_MESSAGE);
   }
+  console.error('[auth] Error desconocido:', error);
   return new AuthError(AUTH_DEFAULT_ERROR_MESSAGE);
 }
 
