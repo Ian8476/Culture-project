@@ -49,10 +49,12 @@ ui-debug.log
 # vercel
 .vercel
 
+# tooling output (artefactos transitorios de herramientas, p. ej. grafos)
+graphify-out/
+
 # typescript
 *.tsbuildinfo
 next-env.d.ts
 
 # Agents
 
-.claude
