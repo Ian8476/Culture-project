@@ -125,7 +125,7 @@ pnpm seed                     # carga el catálogo (intereses · subgéneros · 
 | `firebase emulators:start` | Auth (9099) + Firestore (8181) |
 | `firebase deploy --only firestore` | Despliegue de rules e índices |
 
-**CI/CD** — [`ci.yml`](.github/workflows/ci.yml) corre lint · typecheck · test · build · rules en cada push/PR; [`deploy.yml`](.github/workflows/deploy.yml) despliega a Vercel tras un CI verde en `main`.
+**CI/CD** — [`ci.yml`](.github/workflows/ci.yml) corre lint · typecheck · test · build · rules en cada push/PR. El despliegue a producción lo hace **Vercel** automáticamente (integración Git) en cada push a `main`.
 
 </details>
 
