@@ -1,150 +1,140 @@
-# Plataforma Cultural
+<!-- ════════════════════════════════════════════════════════════════════
+     PLATAFORMA CULTURAL · README editorial — sistema de diseño "Tertulia"
+     Los SVG del hero viven en .github/assets/ (versión clara y oscura).
+     ════════════════════════════════════════════════════════════════════ -->
 
-Plataforma que reúne a personas geográficamente dispersas con intereses culturales afines en
-**cine, teatro y lectura**. Agrupa usuarios por subgénero, perfil de análisis (trama, técnica,
-actuación, reflexión, contexto histórico) y nivel de conocimiento, evitando el ruido de las redes
-sociales generales y mitigando spoilers en las discusiones sobre obras.
+<div align="center">
 
-Prototipo funcional del MVP — Caso 3 del Proyecto Final de Administración de Proyectos
-(Grupo 51, I Semestre 2026).
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset=".github/assets/hero-dark.svg" />
+  <img alt="Plataforma Cultural — Tertulia digital de cine, teatro y lectura" src=".github/assets/hero-light.svg" width="100%" />
+</picture>
 
-> La fuente de verdad operativa (arquitectura, reglas de código, modelo de datos y Security Rules)
-> es [`.claude/Project-context.md`](.claude/Project-context.md). Léelo antes de contribuir.
+<br /><br />
 
-## Stack
+[![Next.js](https://img.shields.io/badge/Next.js-15-a8441e?style=for-the-badge&logo=nextdotjs&logoColor=f6f0e4&labelColor=251b10)](https://nextjs.org)
+[![React](https://img.shields.io/badge/React-19-a8441e?style=for-the-badge&logo=react&logoColor=f6f0e4&labelColor=251b10)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-strict-a8441e?style=for-the-badge&logo=typescript&logoColor=f6f0e4&labelColor=251b10)](https://www.typescriptlang.org)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-v4-a8441e?style=for-the-badge&logo=tailwindcss&logoColor=f6f0e4&labelColor=251b10)](https://tailwindcss.com)
+[![Firebase](https://img.shields.io/badge/Firebase-Firestore%20%2B%20Auth-a8441e?style=for-the-badge&logo=firebase&logoColor=f6f0e4&labelColor=251b10)](https://firebase.google.com)
+[![Vitest](https://img.shields.io/badge/Vitest-104%20pruebas-a8441e?style=for-the-badge&logo=vitest&logoColor=f6f0e4&labelColor=251b10)](https://vitest.dev)
 
-- **Framework:** Next.js 15 (App Router) · React 19
-- **Lenguaje:** TypeScript en modo `strict`
-- **UI:** Tailwind CSS v4
-- **Backend (BaaS):** Firebase — Firestore (datos), Firebase Authentication (identidad),
-  Firestore Security Rules (autorización)
-- **Validación:** Zod
-- **Estado global:** React Context (`AuthProvider`, `ToastProvider`)
-- **Testing:** Vitest + Testing Library (+ `@firebase/rules-unit-testing` para las rules)
-- **Gestor de paquetes:** pnpm
-- **Hosting:** Vercel (app) · Firebase (datos y auth)
-- **CI/CD:** GitHub Actions
+<br />
 
-## Arquitectura en una línea
+<img alt="Cine · Teatro · Lectura · Sin spoilers" src=".github/assets/marquee.svg" width="100%" />
 
-Feature-based, con flujo de dependencias unidireccional:
+</div>
+
+<br />
+
+> *Reúne a personas dispersas con intereses culturales afines —* **cine, teatro y lectura** *— agrupándolas por subgénero, perspectiva de análisis y nivel de conocimiento. Sin el ruido de las redes generales. Sin spoilers que arruinen la obra.*
+
+<div align="center"><sub>✦ &nbsp; ✦ &nbsp; ✦</sub></div>
+
+## La cartelera
+
+<table>
+<tr>
+<td width="33%" valign="top">
+
+#### `N.º 01` · Cine
+De la ciencia ficción al documental.
+<br /><br />
+<sub>**CIENCIA FICCIÓN · DRAMA · COMEDIA · DOCUMENTAL · ANIMACIÓN**</sub>
+
+</td>
+<td width="33%" valign="top">
+
+#### `N.º 02` · Teatro
+Del clásico al experimental.
+<br /><br />
+<sub>**CLÁSICO · CONTEMPORÁNEO · MUSICAL · EXPERIMENTAL**</sub>
+
+</td>
+<td width="33%" valign="top">
+
+#### `N.º 03` · Lectura
+De la novela al ensayo.
+<br /><br />
+<sub>**NOVELA · ENSAYO · POESÍA · CUENTO · NO FICCIÓN**</sub>
+
+</td>
+</tr>
+</table>
+
+> Cada subgénero es una **comunidad**: descubre miembros afines y abre discusiones sobre obras. El contenido marcado como spoiler se oculta hasta que decides revelarlo.
+
+<div align="center"><sub>✦ &nbsp; ✦ &nbsp; ✦</sub></div>
+
+## La función comienza así
+
+1. **Crea tu perfil cultural** — elige intereses y declara tu nivel: de quien apenas empieza a quien domina la materia.
+2. **Afina tu lente** — marca subgéneros y pondera tus perspectivas: trama, técnica, actuación, reflexión filosófica o contexto histórico.
+3. **Únete a la tertulia** — conversa a fondo con personas afines aunque estén lejos, en comunidades por subgénero.
+
+<div align="center"><sub>✦ &nbsp; ✦ &nbsp; ✦</sub></div>
+
+## Entre bastidores
+
+Arquitectura **feature-based** con flujo de dependencias en un solo sentido:
 
 ```
-page → componente → hook → service → firebase SDK / constants / types
+page  →  componente  →  hook  →  service  →  Firebase SDK
+                                       ↘  constants · types
 ```
 
-Reglas absolutas (bloquean PR): cero strings hardcodeados, cero magic numbers, SRP estricto,
-tipos en `*.types.ts`, y los componentes nunca llaman al SDK de Firestore directo (pasan por un
-service). Detalle completo en [`.claude/Project-context.md`](.claude/Project-context.md).
+<sub>**TypeScript strict** · cero strings hardcodeados · cero números mágicos · los componentes nunca llaman al SDK de Firestore directo · `Timestamp` jamás cruza fuera de la capa de servicios. Detalle completo en [`.claude/Project-context.md`](.claude/Project-context.md).</sub>
 
-## Requisitos previos
+| Capa | Pieza |
+|------|-------|
+| **App Router** | `auth` · `profile` · `communities` · landing · 404 / error |
+| **Features** | `auth` · `profile` · `communities` — cada una con `components / hooks / services / types / constants` |
+| **Backend** | Firestore + Firebase Auth, autorización en [`firestore.rules`](firestore.rules) (testeadas en CI) |
+| **Estado** | React Context — `AuthProvider` · `ToastProvider` |
 
-- Node.js 20+
-- pnpm 10+ (`npm install -g pnpm`)
-- Una app web de Firebase (Firestore + Authentication con email/password habilitado)
-- Para tests de Security Rules y emuladores: Java 17+ y `firebase-tools`
-  (`npm install -g firebase-tools`)
+<div align="center"><sub>✦ &nbsp; ✦ &nbsp; ✦</sub></div>
 
-## Puesta en marcha
+## Levantar el telón
 
 ```bash
-# 1. Instalar dependencias
 pnpm install
-
-# 2. Configurar variables de entorno
-cp .env.example .env.local   # y rellenar con los valores de tu app de Firebase
-
-# 3. Levantar el entorno de desarrollo
-pnpm dev
+cp .env.example .env.local    # rellena tu configuración de Firebase
+pnpm dev                      # http://localhost:3000
 ```
-
-Abre [http://localhost:3000](http://localhost:3000).
-
-### Variables de entorno
-
-Definidas en `.env.local` (nunca se versiona; el ejemplo sí). Las claves del cliente de Firebase
-son públicas por diseño: la seguridad real vive en las Security Rules.
-
-```env
-NEXT_PUBLIC_FIREBASE_API_KEY=
-NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=
-NEXT_PUBLIC_FIREBASE_PROJECT_ID=
-NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=
-NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=
-NEXT_PUBLIC_FIREBASE_APP_ID=
-
-# Solo para el script de seed (Admin SDK). NUNCA se versiona.
-FIREBASE_ADMIN_CREDENTIALS_PATH=./KEY DE PROYECTO ADMIN 3.json
-```
-
-### Datos semilla (catálogo)
-
-El catálogo de intereses, subgéneros y perspectivas se carga con un script que usa el Admin SDK
-y una cuenta de servicio descargada de Firebase Console (gitignored):
 
 ```bash
-pnpm seed
+pnpm seed                     # carga el catálogo (intereses · subgéneros · perspectivas)
 ```
 
-## Comandos
+> Requisitos: **Node 20+**, **pnpm 10+**. Las claves `NEXT_PUBLIC_FIREBASE_*` son públicas por diseño; la seguridad real vive en las Security Rules. La service account (`KEY DE PROYECTO ADMIN 3.json`) y `.env.local` **nunca** se versionan.
 
-| Comando | Descripción |
-|---------|-------------|
+<details>
+<summary><b>&nbsp;Telón de comandos</b></summary>
+
+<br />
+
+| Comando | Función |
+|---------|---------|
 | `pnpm dev` | Servidor de desarrollo |
-| `pnpm build` | Build de producción |
-| `pnpm start` | Sirve el build de producción |
-| `pnpm lint` | ESLint |
-| `pnpm typecheck` | Chequeo de tipos (`tsc --noEmit`) |
-| `pnpm test` | Tests unitarios (Vitest) |
-| `pnpm test:watch` | Tests en modo watch |
-| `pnpm test:coverage` | Tests con reporte de cobertura |
-| `pnpm test:rules` | Tests de Security Rules (emulador de Firestore) |
-| `pnpm format` | Prettier `--write` |
-| `pnpm seed` | Carga el catálogo en Firestore (Admin SDK) |
+| `pnpm build` · `pnpm start` | Build de producción y arranque |
+| `pnpm lint` · `pnpm typecheck` | ESLint y chequeo de tipos |
+| `pnpm test` · `pnpm test:coverage` | Pruebas unitarias (+ cobertura) |
+| `pnpm test:rules` | Security Rules contra el emulador de Firestore |
+| `pnpm format` | Prettier |
+| `pnpm seed` | Carga del catálogo (Admin SDK) |
+| `firebase emulators:start` | Auth (9099) + Firestore (8181) |
+| `firebase deploy --only firestore` | Despliegue de rules e índices |
 
-### Emuladores de Firebase
+**CI/CD** — [`ci.yml`](.github/workflows/ci.yml) corre lint · typecheck · test · build · rules en cada push/PR; [`deploy.yml`](.github/workflows/deploy.yml) despliega a Vercel tras un CI verde en `main`.
 
-```bash
-firebase emulators:start   # Auth (9099) + Firestore (8181) con UI
-```
+</details>
 
-## Estructura
+<br />
 
-```
-src/
-├── app/            # Rutas (App Router): auth, profile, communities, landing, 404, error
-├── features/       # auth · profile · communities (components, hooks, services, types, constants)
-├── shared/         # components, hooks, context, services, types, constants reutilizables
-└── lib/            # firebase (client, collections, converters) · utils (validation, dates)
-```
+<div align="center">
 
-Funcionalidades principales: registro/login/recuperación de contraseña, onboarding y edición de
-perfil cultural, y comunidades por subgénero con discusiones, comentarios y manejo de spoilers.
+<sub>**PLATAFORMA CULTURAL**</sub><br />
+<sub>*Cine · Teatro · Lectura*</sub><br /><br />
+<sub>Proyecto del curso Administración de Proyectos · Grupo 51 · I Semestre 2026</sub>
 
-## Tests
-
-```bash
-pnpm test            # unitarios + componentes
-pnpm test:coverage   # con cobertura (umbral del proyecto: >= 50% en código nuevo)
-pnpm test:rules      # Security Rules contra el emulador
-```
-
-## CI/CD
-
-- **CI** ([`.github/workflows/ci.yml`](.github/workflows/ci.yml)): en cada push/PR corre lint,
-  typecheck, tests, build y los tests de Security Rules.
-- **Deploy** ([`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)): tras un CI verde en
-  `main`, despliega la app a Vercel.
-
-Las **Firestore Security Rules** y los índices se despliegan aparte con la Firebase CLI:
-
-```bash
-firebase deploy --only firestore
-```
-
-## Seguridad
-
-- Las claves de Firebase del cliente son públicas; la autorización real está en
-  [`firestore.rules`](firestore.rules), testeadas en CI.
-- La cuenta de servicio del Admin SDK (`KEY DE PROYECTO ADMIN 3.json`) y `.env.local` están
-  gitignored y nunca deben versionarse.
+</div>

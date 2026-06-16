@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 460" width="1280" height="460" role="img" aria-label="Plataforma Cultural — Tertulia digital de cine, teatro y lectura">
+  <defs>
+    <style>
+      .serif { font-family: 'Fraunces','Playfair Display',Georgia,'Times New Roman',serif; }
+      .sans  { font-family: 'Albert Sans','Manrope','Helvetica Neue',Arial,sans-serif; }
+    </style>
+  </defs>
+
+  <!-- Papel -->
+  <rect width="1280" height="460" fill="#f6f0e4"/>
+
+  <!-- Doble filete editorial -->
+  <rect x="22" y="22" width="1236" height="416" fill="none" stroke="#ddd0b8" stroke-width="1.5"/>
+  <rect x="30" y="30" width="1220" height="400" fill="none" stroke="#ddd0b8" stroke-width="0.75"/>
+
+  <!-- Comilla gigante de fondo -->
+  <text x="26" y="350" class="serif" font-size="300" font-style="italic" fill="#a8441e" opacity="0.07">&#8220;</text>
+
+  <!-- Etiqueta superior -->
+  <line x1="92" y1="103" x2="132" y2="103" stroke="#8a6a2f" stroke-width="1.5" opacity="0.7"/>
+  <text x="144" y="109" class="sans" font-size="15" font-weight="600" letter-spacing="4" fill="#8a6a2f">TERTULIA DIGITAL</text>
+
+  <!-- Título -->
+  <text x="86" y="232" class="serif" font-size="86" font-weight="600" letter-spacing="-1" fill="#251b10">Plataforma</text>
+  <text x="86" y="328" class="serif" font-size="86" font-weight="600" font-style="italic" fill="#a8441e">Cultural.</text>
+
+  <!-- Subtítulo -->
+  <text x="90" y="382" class="serif" font-size="23" font-style="italic" fill="#6e5f4b">Donde cada obra encuentra su conversación.</text>
+
+  <!-- Tags -->
+  <text x="92" y="418" class="sans" font-size="13" font-weight="600" letter-spacing="3" fill="#8a6a2f">CINE&#160;&#160;&#160;·&#160;&#160;&#160;TEATRO&#160;&#160;&#160;·&#160;&#160;&#160;LECTURA</text>
+
+  <!-- Boletos apilados -->
+  <g transform="rotate(-9 1010 225)">
+    <rect x="852" y="120" width="316" height="212" rx="2" fill="#ece4d2" stroke="#ddd0b8" stroke-width="1.5"/>
+  </g>
+
+  <g transform="rotate(-3.5 1022 232)">
+    <rect x="864" y="124" width="320" height="216" rx="2" fill="#fdfaf2" stroke="#ddd0b8" stroke-width="1.5"/>
+    <line x1="864" y1="166" x2="1184" y2="166" stroke="#ddd0b8" stroke-width="1" stroke-dasharray="4 3"/>
+    <text x="884" y="153" class="sans" font-size="11" font-weight="600" letter-spacing="2" fill="#8a6a2f">ENTRADA N.º 001</text>
+    <text x="1164" y="153" text-anchor="end" class="sans" font-size="11" font-weight="600" letter-spacing="2" fill="#8a6a2f">SALA 1</text>
+
+    <text x="886" y="248" class="serif" font-size="54" font-weight="600" font-style="italic" fill="#251b10">Cine</text>
+    <text x="888" y="278" class="sans" font-size="12" fill="#6e5f4b">Ciencia ficción · Drama · Comedia</text>
+
+    <line x1="864" y1="300" x2="1184" y2="300" stroke="#ddd0b8" stroke-width="1" stroke-dasharray="4 3"/>
+    <text x="884" y="324" class="sans" font-size="11" letter-spacing="1.5" fill="#6e5f4b">FILA A · ASIENTO 12</text>
+    <text x="1164" y="324" text-anchor="end" class="sans" font-size="11" font-weight="600" letter-spacing="1.5" fill="#a8441e">SIN SPOILERS</text>
+  </g>
+</svg>
