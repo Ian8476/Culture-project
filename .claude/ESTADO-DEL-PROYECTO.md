@@ -3,9 +3,10 @@
 > Bitácora viva del avance del prototipo. Se actualiza al cerrar cada tanda de trabajo.
 > Fuente de verdad de arquitectura y reglas: [`Project-context.md`](./Project-context.md).
 
-**Última actualización:** 2026-06-10
+**Última actualización:** 2026-06-16
 **Sprint:** 3–4 (Comunidades + pulido de UX y sesión persistente)
-**Fase actual:** UX integral pulida (Tanda 4): sesión persistente visible en toda la app (AppHeader global + GuestGuard + CTAs de landing según sesión), toasts de confirmación, fechas relativas, estados vacíos amables, 404/error pages y metadata por página. Verificado: typecheck/lint/test/build verdes, **104 tests**, cobertura global ~63%. Pendiente: deploy de rules/índices (bloqueado por permisos, ver §3.ter) y de la app en Vercel.
+**Fase actual:** UX integral pulida (Tanda 4): sesión persistente visible en toda la app (AppHeader global + GuestGuard + CTAs de landing según sesión), toasts de confirmación, fechas relativas, estados vacíos amables, 404/error pages y metadata por página. Verificado: typecheck/lint/test/build verdes, **104 tests**, cobertura global ~63%. Pendiente: deploy de rules/índices (bloqueado por permisos, ver §3.ter); la app se despliega vía integración Git de Vercel (push a `main` → producción).
+**Backlog acordado (2026-06-16):** se añadieron tres alcances planificados — likes, amigos/perfiles públicos y mensajería privada — detallados en **§6**. Aún sin implementar.
 
 ---
 
@@ -232,3 +233,63 @@ pnpm seed           # cargar catálogos (requiere service account key)
 firebase emulators:start          # auth + firestore locales
 firebase deploy --only firestore  # desplegar rules e indexes
 ```
+
+---
+
+## 6. Alcances planificados (backlog — próximos sprints)
+
+> Features acordadas como próximos alcances del producto. **Aún NO implementadas.**
+> Al implementarse: actualizar `Project-context.md` (modelo de datos §7, features §10, rules §8) — DoD #6,
+> y toda colección nueva debe llevar sus Security Rules en el **mismo** PR.
+> Patrón transversal: **idempotencia por ID determinista** (el id del documento codifica al actor/par
+> de actores) para evitar duplicados — se reusa en likes (id = uid) y en conversaciones (id = par de uids).
+
+### 6.1 Likes en publicaciones (discusiones y comentarios)
+
+Objetivo: "me gusta" tanto a una **discusión** como a un **comentario** dentro de la discusión.
+
+**Modelo** (coherente con el patrón de subcolecciones ya usado en `comments`):
+- `discussions/{discussionId}/likes/{uid}` → `{ createdAt }`. **El id del doc ES el `uid`.**
+- `discussions/{discussionId}/comments/{commentId}/likes/{uid}` → `{ createdAt }`.
+- Contador denormalizado `likeCount: number` en el doc padre, mantenido con `FieldValue.increment` **dentro de una transacción**.
+
+**Reglas:** `read: if isSignedIn()`; `create`/`delete: if isOwner(uid)` (el id del doc debe ser el uid → cada quien solo marca/quita su propio like); `update: if false` (un like no se edita).
+
+**Edge cases exigidos por el equipo:**
+- **Likes solapados (duplicados):** mismo usuario marcando like más de una vez — doble-tap, reintentos de red, varias pestañas/dispositivos, desync del UI optimista. **Mitigación:** la idempotencia está garantizada porque el like es un documento cuyo id es el uid → un segundo like es un `set` sobre el mismo doc (no crea duplicado). El contador **no** se incrementa a ciegas: la transacción verifica si el doc de like **ya existía** antes de sumar/restar, para que un re-like no infle `likeCount`. En el botón, deshabilitar mientras la operación está en curso para no disparar dos veces.
+- **Likes fantasmas (huérfanos / contador a la deriva):** likes que sobreviven al borrado de la discusión/comentario o del usuario, o un `likeCount` que deja de coincidir con la cantidad real de docs en `likes` (p. ej. el `increment` se aplicó pero la creación del like falló, o viceversa). **Mitigaciones:** (a) escribir like + incremento en la **misma** transacción para que no puedan divergir; (b) Firestore **no** cascadea borrados → al eliminar una discusión/comentario hay que borrar su subcolección `likes` (batch o Cloud Function), o aceptar el huérfano y nunca leerlo (recomputando el conteo desde la subcolección); (c) utilidad de **reconciliación** que recomputa `likeCount = count(likes)` on-demand/periódico; (d) si el costo de lecturas lo permite, prescindir del contador y derivar el número con un `count()` aggregation query.
+
+**Arquitectura:** `features/communities` (o nueva `features/reactions`) → `likes.service.ts` (transacciones), hook `useLike(target)`, componente `LikeButton` en `shared/components` (reutilizable para discusión y comentario, con estado optimista + reversión si la transacción falla).
+
+### 6.2 Amigos + perfiles públicos + actividad de un usuario
+
+**a) Amistades.**
+- `friendRequests/{requestId}` → `{ fromUid, toUid, status: 'PENDING'|'ACCEPTED'|'REJECTED', createdAt, respondedAt }`.
+  **`requestId` determinista** = par de uids ordenado (`uidMenor_uidMayor`) → evita solicitudes cruzadas/duplicadas (A→B y B→A son el mismo doc).
+- Al aceptar, denormalizar la amistad en ambos lados: `users/{uid}/friends/{friendUid}` → `{ since }` (lectura rápida de "mis amigos" sin queries cruzadas).
+- **Reglas:** crear solicitud solo si `fromUid == uid` y `fromUid != toUid` (no auto-solicitud); solo `toUid` puede pasarla a ACCEPTED/REJECTED; cada quien solo escribe su propia subcolección `friends`.
+
+**b) Ver perfiles de otros.**
+- Las rules ya permiten `profiles read: if isSignedIn()`, así que **leer otro perfil es viable hoy**; falta UI.
+- Página pública `/u/[uid]` que reutilice `ProfileView` en modo "ajeno" (sin acciones de edición). Decidir qué es público (displayName, bio, intereses/subgéneros/perspectivas) vs privado.
+
+**c) Comentarios/actividad de un usuario.**
+- Listar lo que publicó un usuario requiere `collectionGroup('comments')` con `where('authorId','==',uid)` y `where('authorId','==',uid)` sobre `discussions` → **índices de collectionGroup** sobre `comments.authorId` y un índice sobre `discussions.authorId`; documentarlos en `firestore.indexes.json`.
+- Los comentarios y discusiones ya guardan `authorName`/`authorId`, así que el listado no requiere joins.
+
+### 6.3 Chat de mensajes privados (DM) por usuario
+
+Objetivo: conversación 1‑a‑1 privada entre dos usuarios.
+
+**Modelo:**
+- `conversations/{conversationId}` → `{ participants: [uidA, uidB], participantsMap: { uidA: true, uidB: true }, lastMessage, lastSenderId, updatedAt }`.
+  **`conversationId` determinista** = par de uids ordenado y unido (`uidA_uidB`) → evita conversaciones duplicadas entre el mismo par (mismo principio anti-"solapados" que en likes).
+- `conversations/{conversationId}/messages/{messageId}` → `{ senderId, body, createdAt, readBy: { uid: true } }`. Mensajes como **subcolección** (no embebidos) por el límite de 1 MB/doc y para paginar.
+
+**Reglas:** `conversations` read/write solo si `request.auth.uid in resource.data.participants`; `messages` `create` si el autor es participante y `senderId == uid`, `read` si participante, sin edición/borrado (o borrado lógico).
+
+**Realtime:** `onSnapshot` sobre `messages` ordenados por `createdAt` (índice simple) y sobre las conversaciones del usuario (`where('participantsMap.{uid}','==',true)` + `orderBy('updatedAt','desc')` → índice compuesto). No-leídos vía `readBy`.
+
+**Edge / decisiones:** ¿DM abierto a cualquiera o solo entre amigos (ata con §6.2)? Rate-limiting básico; bloqueo de usuarios queda como alcance futuro.
+
+**Arquitectura:** `features/messaging` con `conversation.service.ts` / `message.service.ts`, hooks `useConversations`, `useMessages(conversationId)`, `useSendMessage`, y componentes `ConversationList`, `ChatThread`, `MessageComposer`. Páginas `/messages` y `/messages/[conversationId]`.
