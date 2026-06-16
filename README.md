@@ -106,7 +106,7 @@ pnpm dev                      # http://localhost:3000
 pnpm seed                     # carga el catálogo (intereses · subgéneros · perspectivas)
 ```
 
-> Requisitos: **Node 20+**, **pnpm 10+**. Las claves `NEXT_PUBLIC_FIREBASE_*` son públicas por diseño; la seguridad real vive en las Security Rules. La service account (`KEY DE PROYECTO ADMIN 3.json`) y `.env.local` **nunca** se versionan.
+> Requisitos: **Node 20+**, **pnpm 10+**. Las claves `NEXT_PUBLIC_FIREBASE_*` son públicas por diseño; la seguridad real vive en las Security Rules. La service account (`KEY.json`) y `.env.local` **nunca** se versionan.
 
 <details>
 <summary><b>&nbsp;Telón de comandos</b></summary>
