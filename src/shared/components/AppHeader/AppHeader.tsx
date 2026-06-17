@@ -7,6 +7,7 @@ import { useToast } from '@/shared/hooks/useToast';
 import { ROUTES } from '@/shared/constants/routes.constants';
 import { APP_NAME } from '@/shared/constants/app.constants';
 import { Button } from '../Button';
+import { ThemeToggle } from '../ThemeToggle';
 import {
   APP_HEADER_LABELS,
   APP_HEADER_NAV_LINKS,
@@ -48,37 +49,40 @@ export function AppHeader() {
           {APP_NAME}
         </Link>
 
-        {isLoading ? (
-          <span aria-hidden="true" className={APP_HEADER_SKELETON_STYLES} />
-        ) : user !== null ? (
-          <div className={APP_HEADER_ACTIONS_STYLES}>
-            {APP_HEADER_NAV_LINKS.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                aria-current={isActive(link.href) ? 'page' : undefined}
-                className={isActive(link.href) ? APP_HEADER_LINK_ACTIVE_STYLES : APP_HEADER_LINK_STYLES}
-              >
-                {link.label}
+        <div className={APP_HEADER_ACTIONS_STYLES}>
+          {isLoading ? (
+            <span aria-hidden="true" className={APP_HEADER_SKELETON_STYLES} />
+          ) : user !== null ? (
+            <>
+              {APP_HEADER_NAV_LINKS.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  aria-current={isActive(link.href) ? 'page' : undefined}
+                  className={isActive(link.href) ? APP_HEADER_LINK_ACTIVE_STYLES : APP_HEADER_LINK_STYLES}
+                >
+                  {link.label}
+                </Link>
+              ))}
+              <Button
+                label={APP_HEADER_LABELS.SIGN_OUT}
+                variant="ghost"
+                size="sm"
+                onClick={handleSignOut}
+              />
+            </>
+          ) : (
+            <>
+              <Link href={ROUTES.AUTH.LOGIN} className={APP_HEADER_LINK_STYLES}>
+                {APP_HEADER_LABELS.LOGIN}
               </Link>
-            ))}
-            <Button
-              label={APP_HEADER_LABELS.SIGN_OUT}
-              variant="ghost"
-              size="sm"
-              onClick={handleSignOut}
-            />
-          </div>
-        ) : (
-          <div className={APP_HEADER_ACTIONS_STYLES}>
-            <Link href={ROUTES.AUTH.LOGIN} className={APP_HEADER_LINK_STYLES}>
-              {APP_HEADER_LABELS.LOGIN}
-            </Link>
-            <Link href={ROUTES.AUTH.REGISTER} className={APP_HEADER_CTA_STYLES}>
-              {APP_HEADER_LABELS.REGISTER}
-            </Link>
-          </div>
-        )}
+              <Link href={ROUTES.AUTH.REGISTER} className={APP_HEADER_CTA_STYLES}>
+                {APP_HEADER_LABELS.REGISTER}
+              </Link>
+            </>
+          )}
+          <ThemeToggle />
+        </div>
       </nav>
     </header>
   );

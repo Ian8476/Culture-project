@@ -10,6 +10,7 @@ export { FormField } from './FormField';
 export { AuthGuard } from './AuthGuard';
 export { GuestGuard } from './GuestGuard';
 export { AppHeader } from './AppHeader';
+export { ThemeToggle } from './ThemeToggle';
 export { LandingCta } from './LandingCta';
 export { EmptyState } from './EmptyState';
 

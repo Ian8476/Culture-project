@@ -12,6 +12,9 @@ Formato inspirado en [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/)
 
 ## Sesión — 2026-06-16
 
+### Añadido
+- **Toggle de modo oscuro/claro** en el `AppHeader` (componente compartido `ThemeToggle`). El tema se controla con el atributo `data-theme` en `<html>` (override manual de `prefers-color-scheme`), persiste en `localStorage` y aplica un script inline anti-FOUC en el root layout. Nuevo `ThemeProvider` + hook `useThemeContext` siguiendo el patrón de `AuthProvider`; tokens de paleta oscura reorganizados en `globals.css` para servir tanto al toggle como a la preferencia del sistema.
+
 ### Cambiado
 - Despliegue migrado a la **integración Git de Vercel**: cada push a `main` despliega a producción y los PRs generan previews. Ya no depende de un workflow del repo.
 - `.gitignore`: se ignora `graphify-out/` (artefactos transitorios de herramientas).

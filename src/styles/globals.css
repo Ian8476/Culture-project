@@ -4,6 +4,12 @@
  * Sistema de diseño "Tertulia": editorial cálido (papel + tinta + terracota).
  * Los tokens viven como CSS variables y se mapean a utilidades de Tailwind v4,
  * por lo que el modo oscuro se resuelve aquí y no con variantes `dark:` en JSX.
+ *
+ * Resolución del tema:
+ *   - `:root` define la paleta clara (default y `[data-theme='light']`).
+ *   - `[data-theme='dark']` fuerza la paleta oscura desde el toggle manual.
+ *   - Si el usuario no eligió tema (`:root:not([data-theme])`), se respeta la
+ *     preferencia del sistema vía `prefers-color-scheme`.
  */
 :root {
   --paper: #f6f0e4;
@@ -22,8 +28,26 @@
   --okay-soft: #e2eee4;
 }
 
+/* Paleta oscura: tokens compartidos por el override manual y el del sistema. */
+[data-theme='dark'] {
+  --paper: #16110c;
+  --surface: #201912;
+  --surface-deep: #2a2218;
+  --ink: #ece2cf;
+  --ink-soft: #a3957c;
+  --line: #3a3024;
+  --accent: #d8814d;
+  --accent-deep: #e9a677;
+  --accent-soft: #3a2415;
+  --ochre: #c0a368;
+  --alert: #e08c7d;
+  --alert-soft: #3c211b;
+  --okay: #9cc4a4;
+  --okay-soft: #21301f;
+}
+
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme]) {
     --paper: #16110c;
     --surface: #201912;
     --surface-deep: #2a2218;

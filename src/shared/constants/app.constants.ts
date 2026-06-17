@@ -6,6 +6,7 @@ export const DEFAULT_LOCALE = 'es-CR' as const;
 
 export const AUTH_CONTEXT_ERROR = 'useAuthContext debe usarse dentro de un AuthProvider.' as const;
 export const TOAST_CONTEXT_ERROR = 'useToast debe usarse dentro de un ToastProvider.' as const;
+export const THEME_CONTEXT_ERROR = 'useThemeContext debe usarse dentro de un ThemeProvider.' as const;
 export const LOADING_MESSAGE = 'Cargando…' as const;
 
 // Títulos del documento por página (se componen con TITLE_TEMPLATE en el root layout).
